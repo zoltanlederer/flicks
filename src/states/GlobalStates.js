@@ -6,7 +6,9 @@ const GlobalState = ({ children }) => {
   const [dataAPI, setDataAPI] = useState([])
   const [selectedLanguage, setSelectedLanguage] = useState('en')
   const [searchMedia, setSearchMedia] = useState('movie')
-  const [colorMode, setColorMode] = useState('light')
+  const [colorMode, setColorMode] = useState(localStorage.getItem('colorMode') === null 
+                                    ? 'light' 
+                                    : localStorage.getItem('colorMode'))
 
   return (
     <GlobalStateContext.Provider

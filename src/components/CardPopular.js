@@ -6,21 +6,16 @@ import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import { flexbox } from '@mui/system';
 
+
 const CardPopular = ({popular, mediaType}) => {
   console.log(popular)
   console.log(mediaType)
   return (
-    // <Box sx={{ flexGrow: 1 }}>
       <Grid 
         container
         spacing={3}
         justifyContent="center"
         marginBottom={5}
-        // marginLeft={0}
-        // direction="column"
-        // alignItems="center"
-        
-        // style={{ minHeight: '100vh' }}
       >
 
       {
@@ -58,7 +53,6 @@ const CardPopular = ({popular, mediaType}) => {
         ))
       }
       </Grid>
-   // </Box>
   )
 }
 
