@@ -1,0 +1,21 @@
+.custom-navlink {
+  text-decoration: none;
+  padding: .5rem 1rem;
+  transition: color .15s, ease-in-out, background-color .15s, ease-in-outborder-color, .15s ease-in-out;
+}
+
+.custom-navlink-active {
+  color: #f6f6f6;
+}
+
+.custom-navlink-active:hover {
+  color: #f6f6f6;
+}
+
+.custom-navlink-nonactive {
+  color: #84868a;
+}
+
+.custom-navlink-nonactive:hover {
+  color: #c5c6c6;
+}

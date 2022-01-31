@@ -1,34 +1,55 @@
-import React, { useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useSearchParams } from "react-router-dom";
 import Services from "../services/movieData";
 import Filters from './Filters'
 import { GlobalStateContext } from '../states/GlobalStates'
+import CardPopular from './CardPopular'
 
+import Container from 'react-bootstrap/Container'
+import Spinner from 'react-bootstrap/Spinner'
 
 const SearchResults = () => {
   const state = useContext(GlobalStateContext)
-  // const {dataAPI, setDataAPI} = useContext(GlobalStateContext)
   const [data, setData] = state.dataAPI
   const [mediaType, setMediaType] = state.searchMedia
   const [searchParams, setSearchParams] = useSearchParams()
-
-  console.log(mediaType)
-  console.log(data)
+  const [isLoading, setIsLoading] = useState(false);
 
   // Fetch data from Movie Database API
-  useEffect(() => {
-      Services
-        .get(`search/${mediaType}`, `&query=${searchParams.get('query')}`, `&language=${searchParams.get('language')}`)
-        .then(res => setData(res.results))
+  useEffect( () => {
+    async function fetchData() {
+      setIsLoading(true)
+      await Services
+      .get(`search/${mediaType}`, `&query=${searchParams.get('query')}`, `&language=${searchParams.get('language')}`)
+      .then(res => {
+        setIsLoading(false)
+        setData(res.results)
+      })
+    }
+    fetchData();
+       
   }, [searchParams, setData, mediaType])
 
 
-  const content = () => {
-    // const data = []    
+  // const content = () => {
   
-    return (
-      <div>
-        {
+  //   return (
+      
+  //   )
+  // }
+  
+
+  return (
+    <div>
+      Movie Result:
+      <ul>
+        <Filters />
+        { isLoading && <Container className="d-flex flex-column align-items-center"><Spinner animation="border"/></Container> }
+
+        <Container className='d-flex flex-wrap justify-content-between'>          
+          <CardPopular popular={data} mediaType={mediaType} />  
+
+        {/* {
           data.map(item => (
             <li key={item.id}>
               {mediaType === 'person' ? item.name 
@@ -40,25 +61,8 @@ const SearchResults = () => {
               }
             </li>
           ))
-        }
-      </div>
-    )
-  }
-  
-
-  return (
-    <div>
-      Movie Result:
-      <ul>
-        <Filters />
-      {/* {
-        data.map(datas => (
-          <li key={datas.id}>
-            {datas.title} <br/>
-          </li>
-        ))
-      } */}
-      {content()}
+        } */}
+      </Container>
       </ul>
     </div>
   )
