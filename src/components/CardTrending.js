@@ -13,11 +13,11 @@ const CardTrending = ({popular, mediaType}) => {
     setModalId(e.target.parentElement.id)
     setModalShow(true)
   }
-  // console.log(popular)
+  console.log(popular)
   // console.log(mediaType)
   return (
     <>
-      {
+      { popular === undefined ? '' :
         popular.map(item => (
           <Card key={item.id} id={item.id} style={{ width: '194px' }} className="bg-light text-dark m-3" onClick={handelModal}>
             <Card.Img variant="top" 

@@ -5,6 +5,8 @@ import Filters from './Filters'
 import { GlobalStateContext } from '../states/GlobalStates'
 import CardTrending from './CardTrending'
 
+import PaginationCustom from './PaginationCustom'
+
 import Container from 'react-bootstrap/Container'
 import Spinner from 'react-bootstrap/Spinner'
 
@@ -14,21 +16,22 @@ const SearchResults = () => {
   const [mediaType, setMediaType] = state.searchMedia
   const [searchParams, setSearchParams] = useSearchParams()
   const [isLoading, setIsLoading] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1)
 
   // Fetch data from Movie Database API
   useEffect( () => {
     async function fetchData() {
       setIsLoading(true)
       await Services
-      .get(`search/${mediaType}`, `&query=${searchParams.get('query')}`, `&language=${searchParams.get('language')}`)
+      .get(`search/${mediaType}`, `&query=${searchParams.get('query')}&page=${pageNumber}`, `&language=${searchParams.get('language')}`)
       .then(res => {
         setIsLoading(false)
-        setData(res.results)
+        setData(res)
       })
     }
     fetchData();
        
-  }, [searchParams, setData, mediaType])
+  }, [searchParams, setData, mediaType, pageNumber])
 
 
   // const content = () => {
@@ -47,7 +50,7 @@ const SearchResults = () => {
 
         {/* <Container className='d-flex flex-wrap justify-content-between'> */}
         <div className="custom-trending-container">    
-          <CardTrending popular={data} mediaType={mediaType} />  
+          <CardTrending popular={data.results} mediaType={mediaType} />  
         </div>
         {/* {
           data.map(item => (
@@ -63,6 +66,9 @@ const SearchResults = () => {
           ))
         } */}
       {/* </Container> */}
+      <div className="d-flex justify-content-center my-4">
+        <PaginationCustom popular={data} pageNumber={pageNumber} setPageNumber={setPageNumber} />
+      </div> 
     </div>
   )
 }

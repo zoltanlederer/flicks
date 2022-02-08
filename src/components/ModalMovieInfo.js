@@ -61,15 +61,22 @@ const ModalMovieInfo = (props) => {
         {...props}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
-        centered      
+        centered
       >
-        {/* <Modal.Header closeButton className="bg-light text-dark">
-          <Modal.Title id="contained-modal-title-vcenter">
+        {/* <Modal.Header closeButton className="bg-light text-dark"> */}
+          {/* <Modal.Title id="contained-modal-title-vcenter">
             {item[0].title}
-          </Modal.Title>
-        </Modal.Header> */}
+          </Modal.Title> */}
+        {/* </Modal.Header> */}
         <Modal.Body className="show-grid bg-light text-dark" >
+        
+        {/* <Button variant="outline-dark" onClick={props.onHide} className='text-end'>X</Button> */}
           <Container>
+            <Row>
+              <Col className="text-end mb-2">
+                {/* <button type="button" class="btn-close" aria-label="Close" onClick={props.onHide}></button>                */}
+              </Col>
+            </Row>
             <Row>
               <Col>
                 {
@@ -101,15 +108,20 @@ const ModalMovieInfo = (props) => {
             </Row>
             {/* className="flex-column justify-content-center align-items-center align-self-center align-content-center" */}
             <Row className="align-items-center justify-content-center align-self-center align-content-center">
-              <Col className="text-center">
+              <Col lg={4} className="text-center">
                 
                 <div><img src={`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${selectedItem[0].poster_path}`} alt='Trailer not available' width='180px' /></div>
                 
               </Col>
-              <Col>
+              <Col lg={8}>
                 
                 {/* <p><strong>Plot</strong></p> */}
                 <p>{selectedItem[0].overview}</p>
+                <p>{
+                  selectedItem[0].release_date
+                    ? <em>Release Date: {selectedItem[0].release_date}</em>
+                    : <em>First Air Date: {selectedItem[0].first_air_date}</em>
+                }</p>
                 <p><strong>Genres</strong></p>
                  {
                    genres.map(e => <Button key={e.id} variant="outline-dark" size="sm" className='m-1' disabled>{e.name}</Button>)
@@ -123,9 +135,9 @@ const ModalMovieInfo = (props) => {
             </Row>
           </Container>
         </Modal.Body>
-        {/* <Modal.Footer>
-          <Button onClick={props.onHide}>Close</Button>
-        </Modal.Footer> */}
+        <Modal.Footer>
+          <Button variant="secondary" onClick={props.onHide}>Close</Button>
+        </Modal.Footer>
       </Modal>
       : ''
     }
