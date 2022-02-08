@@ -62,8 +62,8 @@ const Search = () => {
                 name="radio-media"
                 value={media.value}
                 checked={mediaType === media.value}
-                // onChange={(e) => setRadioValue(e.currentTarget.value)}
                 onChange={handleMediaType}
+                className='shadow-none'
               >
                 {media.name}
               </ToggleButton>
@@ -80,6 +80,7 @@ const Search = () => {
                 placeholder="Search for a movie, tv show, person....."
                 aria-label="Search for a movie, tv show, person....."
                 value={search} onChange={handleSearch}
+                className="shadow-none"
               />
               <Button variant="secondary" type="submit">
                 Search

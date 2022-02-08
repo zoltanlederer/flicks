@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import Services from "../services/movieData";
 import Filters from './Filters'
 import { GlobalStateContext } from '../states/GlobalStates'
-import CardPopular from './CardPopular'
+import CardTrending from './CardTrending'
 
 import Container from 'react-bootstrap/Container'
 import Spinner from 'react-bootstrap/Spinner'
@@ -42,13 +42,13 @@ const SearchResults = () => {
   return (
     <div>
       Movie Result:
-      <ul>
         <Filters />
         { isLoading && <Container className="d-flex flex-column align-items-center"><Spinner animation="border"/></Container> }
 
-        <Container className='d-flex flex-wrap justify-content-between'>          
-          <CardPopular popular={data} mediaType={mediaType} />  
-
+        {/* <Container className='d-flex flex-wrap justify-content-between'> */}
+        <div className="custom-trending-container">    
+          <CardTrending popular={data} mediaType={mediaType} />  
+        </div>
         {/* {
           data.map(item => (
             <li key={item.id}>
@@ -62,8 +62,7 @@ const SearchResults = () => {
             </li>
           ))
         } */}
-      </Container>
-      </ul>
+      {/* </Container> */}
     </div>
   )
 }

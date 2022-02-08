@@ -2,7 +2,9 @@ import React, { useEffect, useContext, useState } from "react";
 import Services from "../services/movieData";
 import { GlobalStateContext } from '../states/GlobalStates'
 import Search from "./Search";
-import CardPopular from './CardPopular'
+import CardTrending from './CardTrending'
+
+import '../styles/home.css'
 
 import Container from "react-bootstrap/esm/Container";
 import Spinner from 'react-bootstrap/Spinner'
@@ -94,15 +96,15 @@ const Home = () =>{
               name="radio-popular"
               value={media.value}
               checked={trendingMediaType === media.value}
-              // onChange={(e) => setRadioValue(e.currentTarget.value)}
               onChange={handleTrendingMediaType}
+              className='shadow-none'
             >
               {media.name}
             </ToggleButton>
           ))}
         </ButtonGroup>
 
-        <ButtonGroup size='sm'>
+        <ButtonGroup size='sm' >
           {selectTrendingTime.map((time, idx) => (
             <ToggleButton
               key={idx}
@@ -112,8 +114,8 @@ const Home = () =>{
               name="radio-timeframe"
               value={time.value}
               checked={timeframe === time.value}
-              // onChange={(e) => setRadioValue(e.currentTarget.value)}
               onChange={handleTimeframe}
+              className='shadow-none'
             >
               {time.name}
             </ToggleButton>
@@ -126,9 +128,18 @@ const Home = () =>{
       
       { isLoading && <Container className="d-flex flex-column align-items-center"><Spinner animation="border"/></Container> }
 
-      <Container className="d-flex flex-wrap justify-content-between">        
-        <CardPopular popular={popular} mediaType={trendingMediaType} />  
-      </Container>
+      {/* <Container className="d-flex flex-column justify-content-center align-items-center align-self-center align-content-center text-center"> */}
+        {/* <Container className="d-flex flex-wrap justify-content-between"> */}
+        {/* <Container style={{display: 'flex', flexWrap: 'wrap'}}> */}
+
+          <div className="custom-trending-container">
+            <CardTrending popular={popular} mediaType={trendingMediaType} />  
+          </div>
+          
+
+
+        {/* </Container> */}
+      {/* </Container> */}
       
     </div>
   )
