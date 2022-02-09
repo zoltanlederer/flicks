@@ -127,7 +127,7 @@ const ModalMovieInfo = (props) => {
                    genres.map(e => <Button key={e.id} variant="outline-dark" size="sm" className='m-1' disabled>{e.name}</Button>)
                  }
                 {/* <p>{selectedItem[0].overview}</p> */}
-                <p><strong>Actors</strong></p>
+                <p className="mt-2"><strong>Actors</strong></p>
                 {
                   credits.map(e => <Button key={e.id} variant="outline-dark" size="sm" className='m-1'>{e.name}</Button>)
                 }

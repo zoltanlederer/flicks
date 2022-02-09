@@ -5,8 +5,6 @@ import Search from "./Search";
 import CardTrending from './CardTrending'
 import PaginationCustom from './PaginationCustom'
 
-import '../styles/home.css'
-
 import Container from "react-bootstrap/esm/Container";
 import Spinner from 'react-bootstrap/Spinner'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
