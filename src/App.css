@@ -6,6 +6,19 @@
   justify-items: center;
 }
 
+.custom-trending-container div {
+  box-shadow: 0px 0px 0px 0px #afaeae;
+  border: none;
+}
+
+.custom-trending-container div:hover {
+  cursor: pointer;
+}
+
+.custom-trending-container div:hover img {
+  transform: scale(.97);
+}
+
 /* Pagination custom color */
 
 .pagination > li > a

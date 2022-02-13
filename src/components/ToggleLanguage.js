@@ -26,11 +26,6 @@ const ToggleLanguage = () => {
 
   return (
     <>
-      {/* <select value={language} onChange={handleLanguage}>
-        <option value={'en'}>English</option>
-        <option value={'hu'}>Magyar</option>
-      </select> */}
-      {/* <i class="bi bi-globe"></i> */}
       <InputGroup className="mb-3">
         <InputGroup.Text style={{ backgroundColor: '#20232a', color: '#8c8e92', border: '0', paddingRight: '1'}}><i className="bi bi-globe"></i></InputGroup.Text>
         <Form.Select className='pb-0 border-0 text-start shadow-none custom-select' value={language} onChange={handleLanguage} >
@@ -38,11 +33,6 @@ const ToggleLanguage = () => {
           <option value={'hu'}>Magyar</option>
         </Form.Select>
       </InputGroup>
-      {/* <i class="bi bi-globe"></i> */}
-      {/* <NavDropdown title={language} onClick={handleLanguage} >
-        <NavDropdown.Item value={'en'} >English</NavDropdown.Item>
-        <NavDropdown.Item value={'hu'} >Magyar</NavDropdown.Item>
-      </NavDropdown> */}
     </>
   )
 }

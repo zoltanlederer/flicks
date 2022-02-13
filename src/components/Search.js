@@ -12,11 +12,6 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 
-
-// https://api.themoviedb.org/3/search/multi?api_key=ba0c945c141b8fb9b78869c1c9811e6b&language=en&query=star
-// https://api.themoviedb.org/3/search/movie?api_key=ba0c945c141b8fb9b78869c1c9811e6b&language=en-US&query=star
-// https://api.themoviedb.org/3/search/tv?api_key=ba0c945c141b8fb9b78869c1c9811e6b&language=en-US&query=star
-
 const Search = () => {
   const state = useContext(GlobalStateContext)
   const [language, setLanguage] = state.selectedLanguage  
@@ -28,7 +23,7 @@ const Search = () => {
     { name: 'Movies', value: 'movie' },
     { name: 'TV Shows', value: 'tv' },
     { name: 'People', value: 'person' },
-    { name: 'All', value: 'multi' },
+    // { name: 'All', value: 'multi' },
   ];
 
   const handleSearch = (e) => {
@@ -38,9 +33,7 @@ const Search = () => {
 
   const submitSearch = (e) => {
     e.preventDefault()
-    console.log(search)
-    // const query = search.replace(/\s/g, '-')
-    navigate(`/search/${mediaType}?query=${search.toLowerCase()}&language=${language}`)
+    navigate(`/search/media?type=${mediaType}&query=${search.toLowerCase()}&language=${language}`)
   }
 
   const handleMediaType = (e) => {
@@ -88,20 +81,6 @@ const Search = () => {
             </InputGroup>
           </Form>
         </Col>
-        {/* Movie Search */}
-        {/* <select name='selectSearchType' onChange={handleMediaType} defaultValue={mediaType}>
-          <option value='movie' >Movie</option>
-          <option value='tv' >TV</option>
-          <option value='person' >Person</option>
-          <option value='multi' >Multi</option>
-        </select> */}
-    
-        {/* <form onSubmit={submitSearch}>
-          <input value={search} onChange={handleSearch} />
-          <button>Search</button>
-        </form> */}
-    
-        
       </Row>
     </Container>
     <Outlet />

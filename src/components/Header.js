@@ -14,22 +14,26 @@ const Header = () => {
     <Navbar variant="dark" expand="sm">
       <Container>
         <Navbar.Brand>
-          <Link to='/'>
-          <img
-            src="https://zoltanlederer.com/flicks-logo.png"
-            width="50"
-            height="50"
-            className="d-inline-block align-top"
-            alt="Flicks logo"
-          />
-          </Link>
+          <a href='/' >
+            <img
+              src={require(`../images/flicks-logo.png`)}
+              width="50"
+              height="50"
+              className="d-inline-block align-top"
+              alt="Flicks logo"
+            />  
+          </a>          
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav"  className="justify-content-end">
           <Nav>
-            <NavLink to='/' className= {({isActive}) => isActive ? 'custom-navlink-active custom-navlink' : 'custom-navlink-nonactive custom-navlink' }    >
-              Home
-            </NavLink>
+            <a href='/' className='custom-navlink-nonactive custom-navlink'>
+                Home
+            </a>
+
+            {/* <NavLink to='/' className= {({isActive}) => isActive ? 'custom-navlink-active custom-navlink' : 'custom-navlink-nonactive custom-navlink' }    > */}              
+              {/* Home */}
+            {/* </NavLink> */}
             
             <NavLink to='/search' className= {({isActive}) => isActive ? 'custom-navlink-active custom-navlink' : 'custom-navlink-nonactive custom-navlink' }    >
               Search

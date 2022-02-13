@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from "react";
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import Services from "../services/movieData";
 import { GlobalStateContext } from '../states/GlobalStates'
 import Search from "./Search";
@@ -9,26 +10,24 @@ import Container from "react-bootstrap/esm/Container";
 import Spinner from 'react-bootstrap/Spinner'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import ToggleButton from 'react-bootstrap/ToggleButton'
-import Pagination from 'react-bootstrap/Pagination'
-import Form from 'react-bootstrap/Form'
-import InputGroup from 'react-bootstrap/InputGroup'
-import FormControl from 'react-bootstrap/FormControl'
-import Button from 'react-bootstrap/Button'
 
 const Home = () =>{
+  const navigate = useNavigate()
+  const [urlParams, seturlParams] = useSearchParams()
   const {selectedLanguage, setSelectedLanguage} = useContext(GlobalStateContext)
   const [language, setLanguage] = selectedLanguage
-  const [popular, setpopular] = useState({})
-  const [timeframe, setTimeframe] = useState('week')
-  const [trendingMediaType, setTrendingMediaType] = useState('movie')
+  const [trending, setTrending] = useState({})
+  const [timeframe, setTimeframe] = useState(urlParams.get('time') ||'week')
+  const [trendingMediaType, setTrendingMediaType] = useState(urlParams.get('type') || 'movie')
   const [isLoading, setIsLoading] = useState(false);
-  const [pageNumber, setPageNumber] = useState(1)
+  const [pageNumber, setPageNumber] = useState(Number(urlParams.get('page')) || 1)
 
-  const selectPopularMedia = [
+  const selectTrendingMedia = [
+    { name: 'Upcoming', value: 'upcoming' },
     { name: 'Movies', value: 'movie' },
     { name: 'TV Shows', value: 'tv' },
     { name: 'People', value: 'person' },
-    { name: 'All', value: 'multi' },
+    // { name: 'All', value: 'multi' },
   ];
 
   const selectTrendingTime = [
@@ -36,21 +35,36 @@ const Home = () =>{
     { name: 'Day', value: 'day' },
   ];
 
+  console.log('trending', trending)
+  console.log('PAGE', urlParams.get('page'))
+  console.log('PAGENUMBER', pageNumber)
+
   // Fetch data from Movie Database API
-  useEffect( () => {
+  useEffect( () => {   
+    navigate(`/trending?type=${trendingMediaType}&time=${timeframe}&page=${pageNumber}&language=${language}`)
     async function fetchData() {
       setIsLoading(true)
-      await Services
-      .get(`trending/${trendingMediaType}/${timeframe}`, `&page=${pageNumber}`, `&language=${language}`)
-      .then(res => {
-        console.log(res.results)
-        setIsLoading(false)
-        setpopular(res)
-      })
+      if (trendingMediaType === 'upcoming' && urlParams.get('type') === 'upcoming') {
+        await Services
+        .get(`movie/${urlParams.get('type')}`, `&page=${urlParams.get('page')}`, `&language=${urlParams.get('language')}`)
+        .then(res => {
+          console.log(res.results)
+          setIsLoading(false)
+          setTrending(res)
+        })
+      } 
+      else {
+        await Services         
+          .get(`trending/${urlParams.get('type')}/${urlParams.get('time')}`, `&page=${urlParams.get('page')}`, `&language=${urlParams.get('language')}`)
+          .then(res => {
+            console.log(res.results)
+            setIsLoading(false)
+            setTrending(res)
+          })
+      }
     }
     fetchData();
-    
-  }, [setpopular, trendingMediaType, timeframe, pageNumber, language])
+  }, [setTrending, trendingMediaType, timeframe, pageNumber, language, urlParams, navigate])
 
   const handleTimeframe = (e) => {
     setTimeframe(e.currentTarget.value)
@@ -59,54 +73,6 @@ const Home = () =>{
   const handleTrendingMediaType = (e) => {
     setTrendingMediaType(e.currentTarget.value)
   }
-
-  // const handlePagination = (e) => {
-  //   console.log(pageNumber)
-  //   console.log(Number(e.target.textContent))
-  //   setPageNumber(Number(e.target.textContent))
-  // }
-
-  console.log(popular.results)
-
-  // let active = 2;
-  // const PaginationCustom = () => {
-  //   let pages = [];
-  //   for (let number = pageNumber; number <= pageNumber + 5; number++) {
-  //     pages.push(
-  //       // <Pagination.Item key={number} active={number === pageNumber} onClick={handlePagination}>
-  //       <Pagination.Item key={number} onClick={e => setPageNumber(Number(e.target.textContent))}>
-  //         {number}
-  //       </Pagination.Item>
-  //     );
-  //   }
-
-  //   return (
-  //     <Pagination>        
-  //       { pageNumber === 1 ? '' :
-  //         <>
-  //           <Pagination.First onClick={() => setPageNumber(1)} />
-  //           <Pagination.Prev onClick={() => setPageNumber(pageNumber - 1)} />
-  //         </>
-  //        }
-  //         {pages}
-  //         {/* <Pagination.Item key={pageNumber} active={pageNumber} onClick={handlePagination}>
-  //           {pageNumber}
-  //         </Pagination.Item> */}
-  //       { pageNumber === popular.total_pages - 5 ? '' :
-  //         <>
-  //           <Pagination.Next onClick={() => setPageNumber(pageNumber + 1)} />
-  //           <Pagination.Last onClick={() => setPageNumber(popular.total_pages - 5)}/>
-  //         </>
-  //       }
-  //     </Pagination>
-  // )}  
-  
-  // const PaginationBasic = (
-  //   <div>
-  //     <Pagination>{pages}</Pagination>
-  //   </div>
-  // );
-
 
   return (
     <div>
@@ -117,13 +83,13 @@ const Home = () =>{
       <Container className="d-flex justify-content-between">
 
         <ButtonGroup size='sm'>
-          {selectPopularMedia.map((media, idx) => (
+          {selectTrendingMedia.map((media, idx) => (
             <ToggleButton
               key={idx}
-              id={`radio-popular-${idx}`}
+              id={`radio-trending-${idx}`}
               type="radio"
               variant={'outline-success'}
-              name="radio-popular"
+              name="radio-trending"
               value={media.value}
               checked={trendingMediaType === media.value}
               onChange={handleTrendingMediaType}
@@ -159,12 +125,11 @@ const Home = () =>{
       { isLoading && <Container className="d-flex flex-column align-items-center"><Spinner animation="border"/></Container> }
 
       <div className="custom-trending-container">
-        <CardTrending popular={popular.results} mediaType={trendingMediaType} />  
+        <CardTrending data={trending.results} />  
       </div>
 
-      {/* <Pagination>{pages}</Pagination> */}
       <div className="d-flex justify-content-center my-4">
-        <PaginationCustom popular={popular} pageNumber={pageNumber} setPageNumber={setPageNumber} />
+        <PaginationCustom data={trending} pageNumber={pageNumber} setPageNumber={setPageNumber} />
       </div>      
     </div>
   )

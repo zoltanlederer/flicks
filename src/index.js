@@ -14,6 +14,10 @@ ReactDOM.render(
     <Routes>
       <Route path='/' element={<App />}>
         <Route index element={<Home />} />
+        
+        <Route path='/trending' element={<Home />}>
+          <Route path=':page' element={<Home />} />
+        </Route>
 
         <Route path='search' element={<Search />}>
           <Route path=':searchQuery' element={<SearchResults />} />

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react"
 import Services from "../services/movieData";
+import DetailedPage from "./DetailedPage";
 import { GlobalStateContext } from '../states/GlobalStates'
+import { useSearchParams } from "react-router-dom";
 
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
@@ -11,66 +13,63 @@ import Col from "react-bootstrap/Col";
 const ModalMovieInfo = (props) => {
   const state = useContext(GlobalStateContext)
   const [language, setLanguage] = state.selectedLanguage
+  const [urlParams, setUrlParams] = useSearchParams()
   const [selectedItem, setSelectedItem] = useState([])
   const [video, setVideo] = useState([])
   const [credits, setCredits] = useState([])
   const [genres, setGenres] = useState([])
+  const [mediaType, setMediaType] = useState('')
 
   useEffect(() => {
     try {
       const item = props.data.filter(i => i.id === Number(props.id))
-      
-      if (item.length !== 0 && item[0].media_type !== 'person') {
+      setMediaType(urlParams.get('type'))
+      if (item.length !== 0 && mediaType !== 'person') {        
         // Trailer
-          Services
-          .get(`${item[0].media_type}/${props.id}/videos`, ``, `&language=en,hu`)
-          .then(res => {
-            const data =  res.results.find(e => e.type === 'Trailer' && e.iso_639_1 === language) || res.results.find(e => e.type === 'Trailer' && e.iso_639_1 === 'en')
-            console.log('DATA', data)
-            setVideo(data)
-          })
+        Services
+        .get(`${mediaType === 'upcoming' ? 'movie' : mediaType}/${props.id}/videos`, ``, `&language=en,hu`)
+        .then(res => {
+          const data =  res.results.find(e => e.type === 'Trailer' && e.iso_639_1 === language) || res.results.find(e => e.type === 'Trailer' && e.iso_639_1 === 'en')
+          setVideo(data)
+        })
         // Credits 
-          Services
-          .get(`${item[0].media_type}/${props.id}/credits`, ``, `&language=${language}`)
-          .then(res => {
-            const data = res.cast.slice(0, 10)
-            setCredits(data)
-          })
+        Services
+        .get(`${mediaType === 'upcoming' ? 'movie' : mediaType}/${props.id}/credits`, ``, `&language=${language}`)
+        .then(res => {
+          const data = res.cast.slice(0, 10)
+          setCredits(data)
+        })
         // Genres 
-          Services
-          .get(`${item[0].media_type}/${props.id}`, ``, `&language=${language}`)
-          .then(res => {
-            setGenres(res.genres)
-          })
+        Services
+        .get(`${mediaType === 'upcoming' ? 'movie' : mediaType}/${props.id}`, ``, `&language=${language}`)
+        .then(res => {
+          setGenres(res.genres)
+        })
       }  
       setSelectedItem(item)
     } catch (err) {
       console.log(err)
     }
     
-  }, [props.data, props.id, language, setSelectedItem])
+  }, [props.data, props.id, language, setSelectedItem, urlParams, mediaType])
 
   console.log('selectedItem', selectedItem)
   console.log('video', video)
+  console.log('credits', credits)
+  console.log('genres', genres)
 
   return (
     <>
     {selectedItem.length === 0 ? '' 
-    : selectedItem[0].media_type !== 'person' ?  
+    : mediaType !== 'person' ?  
       <Modal
         {...props}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        {/* <Modal.Header closeButton className="bg-light text-dark"> */}
-          {/* <Modal.Title id="contained-modal-title-vcenter">
-            {item[0].title}
-          </Modal.Title> */}
-        {/* </Modal.Header> */}
         <Modal.Body className="show-grid bg-light text-dark" >
         
-        {/* <Button variant="outline-dark" onClick={props.onHide} className='text-end'>X</Button> */}
           <Container>
             <Row>
               <Col className="text-end mb-2">
@@ -98,7 +97,6 @@ const ModalMovieInfo = (props) => {
             <Row className="my-3">
               <hr className="m-0" />
               <Col className="text-center pt-2">
-                {/* <p className="m-0"><strong>{selectedItem[0].title || selectedItem[0].name}</strong></p> */}
                 <h5>{selectedItem[0].title || selectedItem[0].name}</h5>
               </Col>
               <Col className="text-end">
@@ -106,16 +104,13 @@ const ModalMovieInfo = (props) => {
               </Col>
               <hr className="m-0" />
             </Row>
-            {/* className="flex-column justify-content-center align-items-center align-self-center align-content-center" */}
             <Row className="align-items-center justify-content-center align-self-center align-content-center">
               <Col lg={4} className="text-center">
                 
                 <div><img src={`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${selectedItem[0].poster_path}`} alt='Trailer not available' width='180px' /></div>
                 
               </Col>
-              <Col lg={8}>
-                
-                {/* <p><strong>Plot</strong></p> */}
+              <Col lg={8}>                
                 <p>{selectedItem[0].overview}</p>
                 <p>{
                   selectedItem[0].release_date
@@ -126,7 +121,6 @@ const ModalMovieInfo = (props) => {
                  {
                    genres.map(e => <Button key={e.id} variant="outline-dark" size="sm" className='m-1' disabled>{e.name}</Button>)
                  }
-                {/* <p>{selectedItem[0].overview}</p> */}
                 <p className="mt-2"><strong>Actors</strong></p>
                 {
                   credits.map(e => <Button key={e.id} variant="outline-dark" size="sm" className='m-1'>{e.name}</Button>)
