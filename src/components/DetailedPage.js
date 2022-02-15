@@ -138,7 +138,7 @@ const DetailedPage = () => {
       </Row>
       <Row className='bg-light text-dark overflow-auto flex-nowrap px-1 py-4'>
           {!credits ? '' : 
-            credits.cast.map(credit => (
+            credits.cast.map(credit => ( credit.known_for_department === 'Acting' &&
               <Card key={credit.id} style={{ width: '9.2rem', fontSize: '.9rem', boxShadow: '0px 1px 7px 3px #afaeae', border: 'none', backgroundColor: 'initial' }} className='mx-2 px-0 lh-sm'>
                 <Card.Img variant="top" className='mx-0'
                   src={credit.profile_path ? `https://www.themoviedb.org/t/p/w276_and_h350_face${credit.profile_path}` 
