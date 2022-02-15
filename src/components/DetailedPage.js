@@ -62,7 +62,7 @@ const DetailedPage = () => {
   }, [urlParams])
 
   // console.log('DETAILS', details)
-  // console.log('CREDITS', credits)
+  console.log('CREDITS', credits)
   // console.log('IMAGES', images)
   // console.log('VIDEOS', videos)
   // console.log('RECOMMENDATIONS', recommendations)
@@ -78,6 +78,10 @@ const DetailedPage = () => {
 
   const handleRecommendations = (id, media) => {
     navigate(`/details?type=${media}&id=${id}&language=${urlParams.get('language')}`)
+  }
+
+  const handleActor = (id) => {
+    navigate(`/person?id=${id}&language=${urlParams.get('language')}`)
   }
 
   return (
@@ -139,11 +143,15 @@ const DetailedPage = () => {
       <Row className='bg-light text-dark overflow-auto flex-nowrap px-1 py-4'>
           {!credits ? '' : 
             credits.cast.map(credit => ( credit.known_for_department === 'Acting' &&
-              <Card key={credit.id} style={{ width: '9.2rem', fontSize: '.9rem', boxShadow: '0px 1px 7px 3px #afaeae', border: 'none', backgroundColor: 'initial' }} className='mx-2 px-0 lh-sm'>
+              <Card key={credit.id}
+               style={{ width: '9.2rem', fontSize: '.9rem', boxShadow: '0px 1px 7px 3px #afaeae', border: 'none', backgroundColor: 'initial', cursor: 'pointer'}} className='mx-2 px-0 lh-sm'
+               onClick={() => handleActor(credit.id)}
+               >
                 <Card.Img variant="top" className='mx-0'
                   src={credit.profile_path ? `https://www.themoviedb.org/t/p/w276_and_h350_face${credit.profile_path}` 
-                  : `https://st4.depositphotos.com/14953852/22772/v/600/depositphotos_227725020-stock-illustration-image-available-icon-flat-vector.jpg`} 
+                  : require(`../images/no-image-available.jpg`)} 
                   alt={credit.name}
+                  height='186px'
                 />
                 
                 <Card.Body>

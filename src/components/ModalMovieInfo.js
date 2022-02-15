@@ -60,6 +60,10 @@ const ModalMovieInfo = (props) => {
     navigate(`/details?type=${mediaType === 'upcoming' ? 'movie' : mediaType}&id=${selectedItem[0].id}&language=${language}`)
   }
 
+  const handleActor = (id) => {
+    navigate(`/person?id=${id}&language=${urlParams.get('language')}`)
+  }
+
   console.log('selectedItem', selectedItem)
   // console.log('video', video)
   // console.log('credits', credits)
@@ -79,15 +83,10 @@ const ModalMovieInfo = (props) => {
         
           <Container>
             <Row>
-              <Col className="text-end mb-2">
-                {/* <button type="button" class="btn-close" aria-label="Close" onClick={props.onHide}></button>                */}
-              </Col>
-            </Row>
-            <Row>
               <Col>
                 {
                   video === undefined ? 
-                    <img src="https://smex.org/wp-content/uploads/2018/06/Youtube-Blocked.jpg" alt='Trailer not available' width='100%' />
+                    <img src={require(`../images/no-trailer-available.jpg`)} alt='Trailer not available' width='100%' />
                   : <iframe
                       // width = "560"
                       width = "100%"
@@ -114,7 +113,13 @@ const ModalMovieInfo = (props) => {
             <Row className="align-items-center justify-content-center align-self-center align-content-center">
               <Col lg={4} className="text-center">
                 
-                <div><img src={`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${selectedItem[0].poster_path}`} alt='Trailer not available' width='180px' /></div>
+                <div>
+                  <img src={selectedItem[0].poster_path ?
+                    `https://image.tmdb.org/t/p/w300_and_h450_bestv2/${selectedItem[0].poster_path}`
+                    : require(`../images/no-image-available.jpg`)
+                  }
+                  alt='Trailer not available' width='180px' />
+                </div>
                 
               </Col>
               <Col lg={8}>                
@@ -130,7 +135,9 @@ const ModalMovieInfo = (props) => {
                  }
                 <p className="mt-2"><strong>Actors</strong></p>
                 {
-                  credits.map(e => <Button key={e.id} variant="outline-dark" size="sm" className='m-1'>{e.name}</Button>)
+                  credits.map(e => (
+                    <Button key={e.id} variant="outline-dark" size="sm" className='m-1' onClick={() => handleActor(e.id)}>{e.name}</Button>
+                  ))
                 }
               </Col>
             </Row>

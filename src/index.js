@@ -7,7 +7,8 @@ import Search from './components/Search'
 import SearchResults from './components/SearchResults'
 import Home from './components/Home'
 import GlobalState from './states/GlobalStates'
-import DetailedPage from './components/DetailedPage';
+import DetailedPage from './components/DetailedPage'
+import ActorPage from './components/ActorPage'
 
 ReactDOM.render(
   <GlobalState>
@@ -21,6 +22,8 @@ ReactDOM.render(
         </Route>
 
         <Route path='/details' element={<DetailedPage />} />
+
+        <Route path='/person' element={<ActorPage />} />
 
         <Route path='search' element={<Search />}>
           <Route path=':searchQuery' element={<SearchResults />} />

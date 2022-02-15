@@ -21,9 +21,10 @@ const CardTrending = ({data}) => {
               src={
                 item.profile_path ? `https://image.tmdb.org/t/p/w300_and_h450_bestv2${item.profile_path}` 
                 : item.poster_path ? `https://image.tmdb.org/t/p/w300_and_h450_bestv2${item.poster_path}`
-                : `https://st4.depositphotos.com/14953852/22772/v/600/depositphotos_227725020-stock-illustration-image-available-icon-flat-vector.jpg`
+                : require(`../images/no-image-available.jpg`)
               }
               alt={item.title || item.name}
+              height='283px'
             />
             <Card.Text className="d-flex flex-column justify-content-center align-items-center text-center" style={{height: '72px'}}>
                 { item.name ? item.name : item.title }
