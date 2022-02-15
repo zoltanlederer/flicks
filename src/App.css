@@ -58,3 +58,86 @@
     background-color: #565e64;
     border: solid 1px #565e64;
 }
+
+
+/* DETAILED PAGE */
+
+.crop {
+  display: block;
+    height: 197px;
+    position: relative;
+    overflow: hidden;
+}
+
+.crop-img {
+  position: absolute;
+  top: -33px;
+}
+
+/* Trailer play button */
+.videos-cover {
+  z-index: 1;
+}
+
+.videos-cover:hover {
+  cursor: pointer;
+  background-color: #565e64;
+}
+
+.videos-cover:hover i {
+  cursor: pointer;
+  color: #77c8cf;
+}
+
+.bi-play-circle {
+  position: absolute;
+  top: 88px;
+  left: 160px;
+  color: #f1f1f1;
+  font-size: 3rem;
+}
+
+/* Poster */
+
+.custom-poster:hover {
+  cursor: pointer;
+  transform: scale(.97);
+}
+
+/* Media Tabs */
+
+.nav-item:first-child {
+  margin-right: 2px !important;
+  /* border: 2px solid red !important; */
+}
+
+.tabtitle {
+  font-size: 1.6rem !important;
+  color: #fff !important;
+  font-weight: 500 !important;
+  
+}
+
+.customtab {
+  font-size: 1.1rem;
+  color: #fff !important;
+  font-weight: 700 !important;
+  align-self: center !important;
+  box-shadow: 0px 0px 4px 2px #afaeae !important;
+  border-radius: 18px !important;
+}
+
+.customtab:hover {
+  transform: scale(.97) !important;
+}
+
+.nav-item {
+  margin-right: 16px !important;
+  align-self: center !important;
+}
+
+.nav-link.active {
+  background-color: initial !important;
+  border: 2px solid #f9f9f9 !important;
+}
+

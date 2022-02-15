@@ -6,6 +6,7 @@ import Card from 'react-bootstrap/Card'
 const CardTrending = ({data}) => {
   const [modalShow, setModalShow] = useState(false)
   const [modalId, setModalId] = useState('')
+  
   const handelModal = (e) => {
     setModalId(e.target.parentElement.id)
     setModalShow(true)
