@@ -61,12 +61,12 @@ const DetailedPage = () => {
        Services.get(`${urlParams.get('type')}/${urlParams.get('id')}/external_ids`, ``, `&language=${urlParams.get('language')}`).then(res =>setExternalIds(res))
   }, [urlParams])
 
-  console.log('DETAILS', details)
-  console.log('CREDITS', credits)
-  console.log('IMAGES', images)
-  console.log('VIDEOS', videos)
-  console.log('RECOMMENDATIONS', recommendations)
-  console.log('EXTERNALIDS', externalIds)
+  // console.log('DETAILS', details)
+  // console.log('CREDITS', credits)
+  // console.log('IMAGES', images)
+  // console.log('VIDEOS', videos)
+  // console.log('RECOMMENDATIONS', recommendations)
+  // console.log('EXTERNALIDS', externalIds)
 
   const handleTrailer = (key, title) => {
     console.log(key)
@@ -83,7 +83,9 @@ const DetailedPage = () => {
   return (
   <>
     <Container className='mb-5'>
+
       {/* HEADER WITH BACKPOSTER */}
+
       <Row className='text-white overflow-auto d-flex flex-column' style={backdropStyle}>
         <Col className='pt-2'>
           <h1>
@@ -130,6 +132,7 @@ const DetailedPage = () => {
       </Row>
 
       {/* CAST */}
+
       <Row className='my-2'>
         <h2>Cast</h2>
       </Row>
@@ -155,64 +158,77 @@ const DetailedPage = () => {
           }
       </Row>
 
+
       {/* MEDIA: TRAILRES & POSTERS */}
-      <Row>
-        <Tabs variant='pills' defaultActiveKey="posters" className="bg-dark my-2 p-0">
-          <Tab eventKey="contact" title="Media" disabled tabClassName={'tabtitle'} />
 
-          <Tab eventKey="posters" title="Posters" tabClassName={'customtab'}>
-            <Row className='bg-light text-dark overflow-auto flex-nowrap justify-content-start p-2'>
-              {!images ? '' : 
-                images.map(image => (
-                  <Card key={image.file_path} style={{ width: '200px', border: 'none', backgroundColor: 'initial' }} className='m-2 p-0 custom-poster'>
-                    <a href={`https://www.themoviedb.org/t/p/original${image.file_path}`} target='_blank' rel="noreferrer">
-                      <img src={`https://www.themoviedb.org/t/p/w220_and_h330_face${image.file_path}`} width='200px' alt={details.title ? details.title : details.name} style={{boxShadow: 'rgb(175, 174, 174) 0px 1px 7px 3px'}} />
-                    </a>                    
-                  </Card>
-                ))
-              }       
-            </Row>
-          </Tab>
+      {!images || images.length === 0 ? '' : 
+        <Row>
+          <Tabs variant='pills' defaultActiveKey="posters" className="bg-dark my-2 p-0">
+            <Tab eventKey="contact" title="Media" disabled tabClassName={'tabtitle'} />
 
-          <Tab eventKey="trailers" title="Trailers" tabClassName={'customtab'}>
-            <Row className='bg-light text-dark overflow-auto flex-nowrap justify-content-start p-2'>
-                {!videos ? '' : 
-                  videos.map(video => (
-                    <Card key={video.id} style={{ width: '350px', border: 'none', backgroundColor: 'initial' }} className='m-2 p-0'>
-                      <div className='crop' style={{boxShadow: 'rgb(175, 174, 174) 0px 1px 7px 3px'}}>
-                        <div className='videos-cover crop-img' onClick={() => handleTrailer(video.key, video.name)}>
-                        <i className="bi bi-play-circle"></i>
-                          <img src={`https://i.ytimg.com/vi/${video.key}/hqdefault.jpg`} width='350px' alt={video.name} />
-                        </div>  
-                      </div>
+            <Tab  eventKey="posters" title="Posters" tabClassName={'customtab'}>
+              <Row className='bg-light text-dark overflow-auto flex-nowrap justify-content-start p-2'>
+                {!images ? '' : 
+                  images.map(image => (
+                    <Card key={image.file_path} style={{ width: '200px', border: 'none', backgroundColor: 'initial' }} className='m-2 p-0 custom-poster'>
+                      <a href={`https://www.themoviedb.org/t/p/original${image.file_path}`} target='_blank' rel="noreferrer">
+                        <img src={`https://www.themoviedb.org/t/p/w220_and_h330_face${image.file_path}`} width='200px' alt={details.title ? details.title : details.name} style={{boxShadow: 'rgb(175, 174, 174) 0px 1px 7px 3px'}} />
+                      </a>                    
                     </Card>
                   ))
                 }       
-            </Row>
-          </Tab>                   
-        </Tabs>
-      </Row>
-      
-      <Row className='my-2'>
-        <h2>Recommendations</h2>
-      </Row>
+              </Row>
+            </Tab>
 
-      <Row className='bg-light text-dark overflow-auto flex-nowrap justify-content-start p-2'>
-        {!recommendations.results ? '' : 
-          recommendations.results.map(recommendation => (
-            <Card key={recommendation.id} style={{ width: '200px', border: 'none', backgroundColor: 'initial' }} className='m-2 p-0 custom-poster'>
-              {/* <a href={`https://www.themoviedb.org/t/p/original${recommendation.file_path}`} target='_blank' rel="noreferrer"> */}
-                <img src={`https://www.themoviedb.org/t/p/w220_and_h330_face${recommendation.poster_path}`} width='200px' alt={recommendation.title ? recommendation.title : recommendation.name} style={{boxShadow: 'rgb(175, 174, 174) 0px 1px 7px 3px'}}
-                  onClick={() => handleRecommendations(recommendation.id, recommendation.media_type)}
-                />
-              {/* </a> */}
-              <Card.Text className='lh-sm text-center mt-2'>
-                <strong>{recommendation.title ? recommendation.title : recommendation.name}</strong>
-              </Card.Text>
-            </Card>
-          ))
-        }       
-      </Row>
+            {!videos || videos.length === 0 ? '' : 
+              <Tab  eventKey="trailers" title="Trailers" tabClassName={'customtab'}>
+                <Row className='bg-light text-dark overflow-auto flex-nowrap justify-content-start p-2'>
+                    {!videos ? '' : 
+                      videos.map(video => (
+                        <Card key={video.id} style={{ width: '350px', border: 'none', backgroundColor: 'initial' }} className='m-2 p-0'>
+                          <div className='crop' style={{boxShadow: 'rgb(175, 174, 174) 0px 1px 7px 3px'}}>
+                            <div className='videos-cover crop-img' onClick={() => handleTrailer(video.key, video.name)}>
+                            <i className="bi bi-play-circle"></i>
+                              <img src={`https://i.ytimg.com/vi/${video.key}/hqdefault.jpg`} width='350px' alt={video.name} />
+                            </div>  
+                          </div>
+                        </Card>
+                      ))
+                    }       
+                </Row>
+              </Tab>
+            } 
+  
+          </Tabs>
+        </Row>
+      }
+
+
+      {/* RECOMMENDATIONS */}
+
+      {!recommendations || recommendations.results.length === 0 ? '' :      
+        <>
+        <Row className='my-2'>
+          <h2>Recommendations</h2>
+        </Row>
+
+        <Row className='bg-light text-dark overflow-auto flex-nowrap justify-content-start p-2'>
+          {!recommendations.results ? '' : 
+            recommendations.results.map(recommendation => (
+              <Card key={recommendation.id} style={{ width: '200px', border: 'none', backgroundColor: 'initial' }} className='m-2 p-0 custom-poster'>
+                  <img src={`https://www.themoviedb.org/t/p/w220_and_h330_face${recommendation.poster_path}`} width='200px' alt={recommendation.title ? recommendation.title : recommendation.name} style={{boxShadow: 'rgb(175, 174, 174) 0px 1px 7px 3px'}}
+                    onClick={() => handleRecommendations(recommendation.id, recommendation.media_type)}
+                  />
+                <Card.Text className='lh-sm text-center mt-2'>
+                  <strong>{recommendation.title ? recommendation.title : recommendation.name}</strong>
+                </Card.Text>
+              </Card>
+            ))
+          }       
+        </Row>
+        </>
+      }
+ 
       
       {/* TRAILER MODAL */}
       <TrailerModal 

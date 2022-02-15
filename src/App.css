@@ -99,7 +99,7 @@
 
 /* Poster */
 
-.custom-poster:hover {
+.custom-poster:hover img {
   cursor: pointer;
   transform: scale(.97);
 }
