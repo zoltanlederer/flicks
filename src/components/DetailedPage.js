@@ -84,6 +84,12 @@ const DetailedPage = () => {
     navigate(`/person?id=${id}&language=${urlParams.get('language')}`)
   }
 
+  const time_convert = (num) => {
+    let hours = Math.floor(num / 60) === 0 ? '' : `${Math.floor(num / 60)}h`
+    const minutes = `${num % 60}m`
+    return `${hours} ${minutes}`        
+  }
+
   return (
   <>
     <Container className='mb-5'>
@@ -116,8 +122,7 @@ const DetailedPage = () => {
                 height="17"
                 alt="tmdb logo"
               />  
-            </a>
-            
+            </a>            
           </p>
 
           <p style={{fontSize: '.9rem'}}>
@@ -126,7 +131,10 @@ const DetailedPage = () => {
               : '' 
             }
           </p>
-          <p>{!details ? '' : details.genres.map(genre => ` ${genre.name}`).toString()}</p>   
+          <p>
+            {!details ? '' : details.genres.map(genre => ` ${genre.name}`).toString()}
+            {` `}&#8226;{` `}{ time_convert( details.runtime ? details.runtime : details.episode_run_time ) }
+          </p>
         </Col>
         <Col md="6" className='mt-0'>
           {!details.tagline ? '' : <p><em>"{details.tagline}"</em></p>}
@@ -224,7 +232,13 @@ const DetailedPage = () => {
           {!recommendations.results ? '' : 
             recommendations.results.map(recommendation => (
               <Card key={recommendation.id} style={{ width: '200px', border: 'none', backgroundColor: 'initial' }} className='m-2 p-0 custom-poster'>
-                  <img src={`https://www.themoviedb.org/t/p/w220_and_h330_face${recommendation.poster_path}`} width='200px' alt={recommendation.title ? recommendation.title : recommendation.name} style={{boxShadow: 'rgb(175, 174, 174) 0px 1px 7px 3px'}}
+                  <img src={recommendation.poster_path ?
+                    `https://www.themoviedb.org/t/p/w220_and_h330_face${recommendation.poster_path}`
+                    : require(`../images/no-image-available.jpg`)}
+                    width='200px'
+                    height='292px'
+                    alt={recommendation.title ? recommendation.title : recommendation.name}
+                    style={{boxShadow: 'rgb(175, 174, 174) 0px 1px 7px 3px'}}
                     onClick={() => handleRecommendations(recommendation.id, recommendation.media_type)}
                   />
                 <Card.Text className='lh-sm text-center mt-2'>
