@@ -131,7 +131,7 @@
 }
 
 .nav-item {
-  margin-right: 16px !important;
+  margin-right: 10px !important;
   align-self: center !important;
 }
 
@@ -147,7 +147,6 @@
   font-size: 2rem !important;
   color: #212529 !important;
   font-weight: 500 !important;
-  
 }
 
 .customtab-actor {

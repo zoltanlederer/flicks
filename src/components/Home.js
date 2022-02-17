@@ -26,7 +26,7 @@ const Home = () =>{
     { name: 'Upcoming', value: 'upcoming' },
     { name: 'Movies', value: 'movie' },
     { name: 'TV Shows', value: 'tv' },
-    { name: 'People', value: 'person' },
+    // { name: 'People', value: 'person' },
     // { name: 'All', value: 'multi' },
   ];
 
