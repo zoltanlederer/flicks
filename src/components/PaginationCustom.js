@@ -1,9 +1,7 @@
 import React from "react";
-
 import Pagination from 'react-bootstrap/Pagination'
 
 const PaginationCustom = (props) => {
-  console.log('props pageNumber', props.pageNumber)
   let pages = [];
   for (let number = props.pageNumber; number <= props.pageNumber + 4; number++) {
     if (number >= props.data.total_pages + 1) {break}

@@ -35,9 +35,9 @@ const Home = () =>{
     { name: 'Day', value: 'day' },
   ];
 
-  console.log('trending', trending)
-  console.log('PAGE', urlParams.get('page'))
-  console.log('PAGENUMBER', pageNumber)
+  // console.log('trending', trending)
+  // console.log('PAGE', urlParams.get('page'))
+  // console.log('PAGENUMBER', pageNumber)
 
   // Fetch data from Movie Database API
   useEffect( () => {   
@@ -57,7 +57,6 @@ const Home = () =>{
         await Services         
           .get(`trending/${urlParams.get('type')}/${urlParams.get('time')}`, `&page=${urlParams.get('page')}`, `&language=${urlParams.get('language')}`)
           .then(res => {
-            console.log(res.results)
             setIsLoading(false)
             setTrending(res)
           })
