@@ -103,6 +103,7 @@ const ActorPage = () => {
                       }
                       alt={known.title ? known.title : known.name} 
                       width='150px'
+                      height='219px'
                       style={{boxShadow: 'rgb(175, 174, 174) 0px 1px 7px 3px'}}
                     />
                   <Card.Text className='lh-sm text-center mt-2'>
