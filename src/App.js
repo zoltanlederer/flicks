@@ -16,7 +16,23 @@ function App() {
           <Header /> 
           <Outlet />
         </Col>          
-      </Row>        
+      </Row>
+      <Row>
+        <Col className='text-center'>
+          <p>
+            <a href='https://www.themoviedb.org/' target='_blank' rel="noreferrer">
+              <img src={require(`./images/tmdb-logo.png`)} alt="The Movie Database Logo" width="148px" />
+            </a>
+            <br />
+            <span style={{ fontSize: '.9rem' }}>
+              Created by <a href='https://zoltanlederer.com/' target='_blank' rel="noreferrer" style={{ color: '#fff', textDecoration: 'none'}}>zoltanlederer.com</a>
+            </span>
+          </p>
+          
+          
+        </Col>
+        
+      </Row>
     </Container>
   )
 }
