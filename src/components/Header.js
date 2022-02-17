@@ -35,9 +35,9 @@ const Header = () => {
               {/* Home */}
             {/* </NavLink> */}
             
-            <NavLink to='/search' className= {({isActive}) => isActive ? 'custom-navlink-active custom-navlink' : 'custom-navlink-nonactive custom-navlink' }    >
+            {/* <NavLink to='/search' className= {({isActive}) => isActive ? 'custom-navlink-active custom-navlink' : 'custom-navlink-nonactive custom-navlink' }    >
               Search
-            </NavLink>
+            </NavLink> */}
 
             <ToggleLanguage />
 

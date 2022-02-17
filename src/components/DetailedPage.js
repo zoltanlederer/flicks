@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Services from "../services/movieData";
 import TrailerModal from './TrailerModal'
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -12,7 +12,7 @@ import Tab from "react-bootstrap/Tab";
 
 
 const DetailedPage = () => {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const [urlParams, setUrlParams] = useSearchParams()
   const [details, setDetails] = useState('')
   const [credits, setCredits] = useState('')
@@ -62,27 +62,26 @@ const DetailedPage = () => {
   }, [urlParams])
 
   // console.log('DETAILS', details)
-  console.log('CREDITS', credits)
+  // console.log('CREDITS', credits)
   // console.log('IMAGES', images)
   // console.log('VIDEOS', videos)
   // console.log('RECOMMENDATIONS', recommendations)
   // console.log('EXTERNALIDS', externalIds)
 
   const handleTrailer = (key, title) => {
-    console.log(key)
     setVideoKey(key)
     setVideoTitle(details.title ? details.title : details.name)
     setTrailerTitle(title)
     setShowTrailerModal(true)
   }
 
-  const handleRecommendations = (id, media) => {
-    navigate(`/details?type=${media}&id=${id}&language=${urlParams.get('language')}`)
-  }
+  // const handleRecommendations = (id, media) => {
+  //   navigate(`/details?type=${media}&id=${id}&language=${urlParams.get('language')}`)
+  // }
 
-  const handleActor = (id) => {
-    navigate(`/person?id=${id}&language=${urlParams.get('language')}`)
-  }
+  // const handleActor = (id) => {
+  //   navigate(`/person?id=${id}&language=${urlParams.get('language')}`)
+  // }
 
   const time_convert = (num) => {
     let hours = Math.floor(num / 60) === 0 ? '' : `${Math.floor(num / 60)}h`
@@ -151,25 +150,28 @@ const DetailedPage = () => {
       <Row className='bg-light text-dark overflow-auto flex-nowrap px-1 py-4'>
           {!credits ? '' : 
             credits.cast.map(credit => ( credit.known_for_department === 'Acting' &&
-              <Card key={credit.id}
-               style={{ width: '9.2rem', fontSize: '.9rem', boxShadow: '0px 1px 7px 3px #afaeae', border: 'none', backgroundColor: 'initial', cursor: 'pointer'}} className='mx-2 px-0 lh-sm'
-               onClick={() => handleActor(credit.id)}
-               >
-                <Card.Img variant="top" className='mx-0'
-                  src={credit.profile_path ? `https://www.themoviedb.org/t/p/w276_and_h350_face${credit.profile_path}` 
-                  : require(`../images/no-image-available.jpg`)} 
-                  alt={credit.name}
-                  height='186px'
-                />
-                
-                <Card.Body>
-                  <Card.Text>
-                    {credit.known_for_department !== 'Acting' ? '' 
-                      : <><strong>{credit.name}</strong><br />{credit.character}</>
-                      }
-                  </Card.Text>
-                </Card.Body>
-              </Card>
+              <Link to={`/person?id=${credit.id}&language=${urlParams.get('language')}`} style={{all: 'unset'}}>
+                <Card key={credit.id}
+                  style={{ width: '9.2rem', height:'308px', fontSize: '.9rem', boxShadow: '0px 1px 7px 3px #afaeae', border: 'none', backgroundColor: 'initial', cursor: 'pointer'}}
+                  className='mx-2 px-0 lh-sm'
+                //  onClick={() => handleActor(credit.id)}
+                > 
+                  <Card.Img variant="top" className='mx-0'
+                    src={credit.profile_path ? `https://www.themoviedb.org/t/p/w276_and_h350_face${credit.profile_path}` 
+                    : require(`../images/no-image-available.jpg`)} 
+                    alt={credit.name}
+                    height='186px'
+                  />
+                  
+                  <Card.Body>
+                    <Card.Text>
+                      {credit.known_for_department !== 'Acting' ? '' 
+                        : <><strong>{credit.name}</strong><br />{credit.character}</>
+                        }
+                    </Card.Text>
+                  </Card.Body>                    
+                </Card>  
+             </Link>             
             ))
           }
       </Row>
@@ -232,15 +234,18 @@ const DetailedPage = () => {
           {!recommendations.results ? '' : 
             recommendations.results.map(recommendation => (
               <Card key={recommendation.id} style={{ width: '200px', border: 'none', backgroundColor: 'initial' }} className='m-2 p-0 custom-poster'>
-                  <img src={recommendation.poster_path ?
-                    `https://www.themoviedb.org/t/p/w220_and_h330_face${recommendation.poster_path}`
-                    : require(`../images/no-image-available.jpg`)}
-                    width='200px'
-                    height='292px'
-                    alt={recommendation.title ? recommendation.title : recommendation.name}
-                    style={{boxShadow: 'rgb(175, 174, 174) 0px 1px 7px 3px'}}
-                    onClick={() => handleRecommendations(recommendation.id, recommendation.media_type)}
-                  />
+                  <Link to={`/details?type=${recommendation.media_type}&id=${recommendation.id}&language=${urlParams.get('language')}`}>
+                    <img src={recommendation.poster_path ?
+                      `https://www.themoviedb.org/t/p/w220_and_h330_face${recommendation.poster_path}`
+                      : require(`../images/no-image-available.jpg`)}
+                      width='200px'
+                      height='292px'
+                      alt={recommendation.title ? recommendation.title : recommendation.name}
+                      style={{boxShadow: 'rgb(175, 174, 174) 0px 1px 7px 3px'}}
+                      // onClick={() => handleRecommendations(recommendation.id, recommendation.media_type)}
+                    />  
+                  </Link>
+                  
                 <Card.Text className='lh-sm text-center mt-2'>
                   <strong>{recommendation.title ? recommendation.title : recommendation.name}</strong>
                 </Card.Text>

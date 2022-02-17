@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from "react";
 import Services from "../services/movieData";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -11,7 +11,7 @@ import Tab from "react-bootstrap/Tab";
 
 
 const ActorPage = () => {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const [urlParams, setUrlParams] = useSearchParams()
   const [details, setDetails] = useState('')
   const [knownFor, setKnownFor] = useState('')
@@ -42,15 +42,15 @@ const ActorPage = () => {
 
   },[urlParams])
 
-  console.log('DETAILS', details)
-  console.log('KNOWN FOR', knownFor)
-  console.log('MOVIE LIST', movielist)
+  // console.log('DETAILS', details)
+  // console.log('KNOWN FOR', knownFor)
+  // console.log('MOVIE LIST', movielist)
 
-  const handleGoToSelected = (id, media) => {
-    console.log('ID', id)
-    console.log('MEDIA', media)
-    navigate(`/details?type=${media}&id=${id}&language=${urlParams.get('language')}`)
-  }
+  // const handleGoToSelected = (id, media) => {
+  //   console.log('ID', id)
+  //   console.log('MEDIA', media)
+  //   navigate(`/details?type=${media}&id=${id}&language=${urlParams.get('language')}`)
+  // }
 
   return (
     <Container className='mb-5'>
@@ -91,23 +91,26 @@ const ActorPage = () => {
           <Row className='bg-light text-dark overflow-auto flex-nowrap justify-content-start p-2'>
           
             {knownFor && knownFor.results.map(known => (
-              <Card key={known.id} 
-                style={{ width: '150px', border: 'none', backgroundColor: 'initial' }}
-                className='m-2 p-0 custom-poster'
-                onClick={() => handleGoToSelected(known.id, 'movie')}
-                >
-                  <img src={known.poster_path ?
-                    `https://www.themoviedb.org/t/p/w220_and_h330_face${known.poster_path}`
-                    : require(`../images/no-image-available.jpg`)
-                    }
-                    alt={known.title ? known.title : known.name} 
-                    width='150px'
-                    style={{boxShadow: 'rgb(175, 174, 174) 0px 1px 7px 3px'}}
-                  />
-                <Card.Text className='lh-sm text-center mt-2'>
-                  <strong>{known.title}</strong>
-                </Card.Text>
-              </Card>
+              <Link to={`/details?type=movie&id=${known.id}&language=${urlParams.get('language')}`} style={{all: 'unset'}}>
+                <Card key={known.id} 
+                  style={{ width: '150px', border: 'none', backgroundColor: 'initial' }}
+                  className='m-2 p-0 custom-poster'
+                  // onClick={() => handleGoToSelected(known.id, 'movie')}
+                  >
+                    <img src={known.poster_path ?
+                      `https://www.themoviedb.org/t/p/w220_and_h330_face${known.poster_path}`
+                      : require(`../images/no-image-available.jpg`)
+                      }
+                      alt={known.title ? known.title : known.name} 
+                      width='150px'
+                      style={{boxShadow: 'rgb(175, 174, 174) 0px 1px 7px 3px'}}
+                    />
+                  <Card.Text className='lh-sm text-center mt-2'>
+                    <strong>{known.title}</strong>
+                  </Card.Text>
+                </Card>  
+              </Link>
+              
               ))
             }
           </Row>
@@ -122,22 +125,24 @@ const ActorPage = () => {
                 <Row className='bg-light text-dark overflow-auto justify-content-around p-2'>
                   {details &&
                     details.movie_credits.cast.map(movie => (
-                      <Card key={`${movie.id}`}
-                        style={{ width: '150px', border: 'none', backgroundColor: 'initial' }}
-                        className='my-2 mx-2 text-center custom-poster'
-                        onClick={() => handleGoToSelected(movie.id, 'movie')}
-                      >
-                        <img src={movie.poster_path ?
-                          `https://www.themoviedb.org/t/p/w220_and_h330_face${movie.poster_path}`
-                          : require(`../images/no-image-available.jpg`)
-                          }
-                          alt={movie.title}
-                          width='150px'
-                          height="218px"
-                          style={{boxShadow: 'rgb(175, 174, 174) 0px 1px 7px 3px'}}
-                          />
-                          <strong>{movie.title}</strong>
-                      </Card>
+                      <Link to={`/details?type=movie&id=${movie.id}&language=${urlParams.get('language')}`} style={{all: 'unset'}}>
+                        <Card key={`${movie.id}`}
+                          style={{ width: '150px', border: 'none', backgroundColor: 'initial' }}
+                          className='my-2 mx-2 text-center custom-poster'
+                          // onClick={() => handleGoToSelected(movie.id, 'movie')}
+                        >
+                          <img src={movie.poster_path ?
+                            `https://www.themoviedb.org/t/p/w220_and_h330_face${movie.poster_path}`
+                            : require(`../images/no-image-available.jpg`)
+                            }
+                            alt={movie.title}
+                            width='150px'
+                            height="218px"
+                            style={{boxShadow: 'rgb(175, 174, 174) 0px 1px 7px 3px'}}
+                            />
+                            <strong>{movie.title}</strong>
+                        </Card>
+                      </Link>
                     ))
                   }
                 </Row>
@@ -149,22 +154,24 @@ const ActorPage = () => {
                 <Row className='bg-light text-dark overflow-auto justify-content-around p-2'>
                   {details &&
                     details.tv_credits.cast.map(tv => (
-                      <Card key={Math.floor(Math.random() * 100000)}
-                          style={{ width: '150px', border: 'none', backgroundColor: 'initial' }}
-                          className='my-2 mx-2 text-center custom-poster'
-                          onClick={() => handleGoToSelected(tv.id, 'tv')}
-                        >
-                        <img src={tv.poster_path ?
-                          `https://www.themoviedb.org/t/p/w220_and_h330_face${tv.poster_path}`
-                          : require(`../images/no-image-available.jpg`)
-                          }
-                          alt={tv.name}
-                          width='150px'
-                          height="218px"
-                          style={{boxShadow: 'rgb(175, 174, 174) 0px 1px 7px 3px'}}
-                          />
-                          <strong>{tv.name}</strong>
-                      </Card>
+                      <Link to={`/details?type=tv&id=${tv.id}&language=${urlParams.get('language')}`} style={{all: 'unset'}}>
+                        <Card key={Math.floor(Math.random() * 100000)}
+                            style={{ width: '150px', border: 'none', backgroundColor: 'initial' }}
+                            className='my-2 mx-2 text-center custom-poster'
+                            // onClick={() => handleGoToSelected(tv.id, 'tv')}
+                          >
+                          <img src={tv.poster_path ?
+                            `https://www.themoviedb.org/t/p/w220_and_h330_face${tv.poster_path}`
+                            : require(`../images/no-image-available.jpg`)
+                            }
+                            alt={tv.name}
+                            width='150px'
+                            height="218px"
+                            style={{boxShadow: 'rgb(175, 174, 174) 0px 1px 7px 3px'}}
+                            />
+                            <strong>{tv.name}</strong>
+                        </Card>
+                      </Link>
                     ))
                   }
                 </Row>

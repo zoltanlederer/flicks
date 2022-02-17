@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react"
 import Services from "../services/movieData";
 import { GlobalStateContext } from '../states/GlobalStates'
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
@@ -10,7 +10,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 const ModalMovieInfo = (props) => {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const state = useContext(GlobalStateContext)
   const [language, setLanguage] = state.selectedLanguage
   const [urlParams, setUrlParams] = useSearchParams()
@@ -53,18 +53,18 @@ const ModalMovieInfo = (props) => {
     
   }, [props.data, props.id, language, setSelectedItem, urlParams, mediaType])
 
-  const handleDetailedPage = () => {
-    console.log('ID', selectedItem[0].id)
-    console.log('MEDIATYPE', mediaType === 'upcoming' ? 'movie' : mediaType)
-    console.log('MEDIATYPE!!', mediaType)
-    navigate(`/details?type=${mediaType === 'upcoming' ? 'movie' : mediaType}&id=${selectedItem[0].id}&language=${language}`)
-  }
+  // const handleDetailedPage = () => {
+  //   console.log('ID', selectedItem[0].id)
+  //   console.log('MEDIATYPE', mediaType === 'upcoming' ? 'movie' : mediaType)
+  //   console.log('MEDIATYPE!!', mediaType)
+  //   navigate(`/details?type=${mediaType === 'upcoming' ? 'movie' : mediaType}&id=${selectedItem[0].id}&language=${language}`)
+  // }
 
-  const handleActor = (id) => {
-    navigate(`/person?id=${id}&language=${urlParams.get('language')}`)
-  }
+  // const handleActor = (id) => {
+  //   navigate(`/person?id=${id}&language=${urlParams.get('language')}`)
+  // }
 
-  console.log('selectedItem', selectedItem)
+  // console.log('selectedItem', selectedItem)
   // console.log('video', video)
   // console.log('credits', credits)
   // console.log('genres', genres)
@@ -106,7 +106,10 @@ const ModalMovieInfo = (props) => {
                 <h5>{selectedItem[0].title || selectedItem[0].name}</h5>
               </Col>
               <Col className="text-end">
-                <Button variant="outline-dark" size="sm" className='m-1' onClick={handleDetailedPage}>More</Button>
+                {/* <Button variant="outline-dark" size="sm" className='m-1' onClick={handleDetailedPage}>More</Button> */}                
+                <Link to={`/details?type=${mediaType === 'upcoming' ? 'movie' : mediaType}&id=${selectedItem[0].id}&language=${language}`}>
+                  <Button variant="outline-dark" size="sm" className='m-1'>More</Button>
+                </Link>
               </Col>
               <hr className="m-0" />
             </Row>
@@ -136,7 +139,10 @@ const ModalMovieInfo = (props) => {
                 <p className="mt-2"><strong>Actors</strong></p>
                 {
                   credits.map(e => (
-                    <Button key={e.id} variant="outline-dark" size="sm" className='m-1' onClick={() => handleActor(e.id)}>{e.name}</Button>
+                    <Link to={`/person?id=${e.id}&language=${urlParams.get('language')}`}>
+                      <Button key={e.id} variant="outline-dark" size="sm" className='m-1'>{e.name}</Button>
+                    </Link>
+                    // <Button key={e.id} variant="outline-dark" size="sm" className='m-1' onClick={() => handleActor(e.id)}>{e.name}</Button>
                   ))
                 }
               </Col>
