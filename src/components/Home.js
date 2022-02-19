@@ -40,7 +40,8 @@ const Home = () =>{
   // console.log('PAGENUMBER', pageNumber)
 
   // Fetch data from Movie Database API
-  useEffect( () => {   
+  useEffect( () => {
+    window.scrollTo(0, 0)
     navigate(`/trending?type=${trendingMediaType}&time=${timeframe}&page=${pageNumber}&language=${language}`)
     async function fetchData() {
       setIsLoading(true)
