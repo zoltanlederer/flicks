@@ -24,10 +24,34 @@ const ActorPage = () => {
   useEffect (() => {
     window.scrollTo(0, 0);
     // Get Details
-    // Services.get(`person/${urlParams.get('id')}`, ``, `&language=${urlParams.get('language')}`)
-    //   .then(res =>setDetails(res))
     Services.get(`person/${urlParams.get('id')}`, `&append_to_response=movie_credits,tv_credits,combined_credits`, `&language=en`)
-      .then(res =>setDetails(res))
+      .then(res => {
+        res.movie_credits.cast.sort((a,b) => {
+          const yearA = a.release_date
+          const yearB = b.release_date
+          if (yearA > yearB) {
+            return -1
+          }
+          if (yearA < yearB) {
+            return 1
+          }
+          return 0
+        })
+
+        res.tv_credits.cast.sort((a,b) => {
+          const yearA = a.first_air_date
+          const yearB = b.first_air_date
+          if (yearA > yearB) {
+            return -1
+          }
+          if (yearA < yearB) {
+            return 1
+          }
+          return 0
+        })
+
+        return setDetails(res) 
+      })
     // Get Known For
     Services.get(`discover/movie`, `&sort_by=vote_count.desc&with_cast=${urlParams.get('id')}`, `&language=${urlParams.get('language')}`)
       .then(res =>setKnownFor(res))
@@ -40,7 +64,9 @@ const ActorPage = () => {
     Services.get(`discover/movie`, `&sort_by=primary_release_date.desc&with_cast=${urlParams.get('id')}`, `&language=${urlParams.get('language')}`)
       .then(res =>setMovielist(res))
 
+
   },[urlParams])
+
 
   // console.log('DETAILS', details)
   // console.log('KNOWN FOR', knownFor)
@@ -51,6 +77,7 @@ const ActorPage = () => {
   //   console.log('MEDIA', media)
   //   navigate(`/details?type=${media}&id=${id}&language=${urlParams.get('language')}`)
   // }
+  
 
   return (
     <Container className='mb-5'>
