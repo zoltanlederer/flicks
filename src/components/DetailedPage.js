@@ -59,7 +59,10 @@ const DetailedPage = () => {
       Services.get(`${urlParams.get('type')}/${urlParams.get('id')}/recommendations`, ``, `&language=${urlParams.get('language')}`).then(res =>setRecommendations(res))
        // Get External IDs
        Services.get(`${urlParams.get('type')}/${urlParams.get('id')}/external_ids`, ``, `&language=${urlParams.get('language')}`).then(res =>setExternalIds(res))
-  }, [urlParams])
+
+    document.title = details.title ? details.title : details.name ? details.name : 'Movie Flicks'
+
+  }, [urlParams, details.title, details.name])
 
   // console.log('DETAILS', details)
   // console.log('CREDITS', credits)

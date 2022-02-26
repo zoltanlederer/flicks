@@ -64,8 +64,9 @@ const ActorPage = () => {
     Services.get(`discover/movie`, `&sort_by=primary_release_date.desc&with_cast=${urlParams.get('id')}`, `&language=${urlParams.get('language')}`)
       .then(res =>setMovielist(res))
 
+    document.title = details.name ? details.name : 'Movie Flicks'
 
-  },[urlParams])
+  },[urlParams, details.name])
 
 
   // console.log('DETAILS', details)
