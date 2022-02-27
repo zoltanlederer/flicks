@@ -13,7 +13,7 @@ const TrailerModal = (props) => {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <Modal.Header className='text-light bg-dark py-2 border-0'>
+      <Modal.Header className='text-light py-2 border-0' style={{background: '#000'}}>
         <Modal.Title id="contained-modal-title-vcenter">
           {props.videotitle && props.videotitle} - {props.trailertitle && props.trailertitle}          
         </Modal.Title>
